@@ -13,8 +13,10 @@ export const Card = styled.div`
   }
 
   img {
+    display: block;
     width: 100%;
-    height: 222px;
+    height: 250px;
+    object-fit: cover;
   }
 `
 export const Titulo = styled.h3`
