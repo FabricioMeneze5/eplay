@@ -8,28 +8,24 @@ export type Props = {
   games: Game[]
 }
 
-const ProductsList = ({ title, background, games }: Props) => {
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(price)
-  }
+export const formatPrice = (price = 0) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(price)
+}
 
+const ProductsList = ({ title, background, games }: Props) => {
   const getGameTags = (game: Game) => {
     const tags = []
 
-    //caso o Game não foi lançado
     if (game.release_dade) {
       tags.push(game.release_dade)
     }
-
-    //caso o Game esta com desconto
     if (game.prices.discount) {
       tags.push(`${game.prices.discount}%`)
     }
 
-    // valor do game
     if (game.prices.current) {
       tags.push(formatPrice(game.prices.current))
     }
@@ -42,15 +38,17 @@ const ProductsList = ({ title, background, games }: Props) => {
         <h2>{title}</h2>
         <List>
           {games.map((game) => (
-            <Product
-              key={game.id}
-              category={game.details.category}
-              description={game.description}
-              image={game.media.thumbnail}
-              infos={getGameTags(game)}
-              system={game.details.system}
-              title={game.name}
-            />
+            <li key={game.id}>
+              <Product
+                id={game.id}
+                category={game.details.category}
+                description={game.description}
+                image={game.media.thumbnail}
+                infos={getGameTags(game)}
+                system={game.details.system}
+                title={game.name}
+              />
+            </li>
           ))}
         </List>
       </div>

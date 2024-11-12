@@ -5,7 +5,8 @@ import Button from '../Button'
 import Tag from '../Tag'
 
 import { Imagem, Titulo, Precos } from './styles'
-import bannerImg from '../../assets/images/banner-homem-aranha.png'
+
+import { formatPrice } from '../ProductsList'
 
 const Banner = () => {
   const [game, setGame] = useState<Game>()
@@ -16,6 +17,10 @@ const Banner = () => {
       .then((res) => setGame(res))
   }, [])
 
+  if (!game) {
+    return <h3>Carregando...</h3>
+  }
+
   return (
     <Imagem style={{ backgroundImage: `url(${game?.media.cover})` }}>
       <div className="container">
@@ -23,13 +28,13 @@ const Banner = () => {
           <Tag size="big">Destaque do dia</Tag>
           <Titulo>{game?.name}</Titulo>
           <Precos>
-            De <span>{game?.prices.old}</span> <br />
-            por apenas {game?.prices.current}
+            De <span>{formatPrice(game?.prices.old)}</span> <br />
+            por apenas {formatPrice(game?.prices.current)}
           </Precos>
         </div>
         <Button
           type="link"
-          to="/produto"
+          to={`/produto/${game?.id}`}
           title="Clique aqui para aproveitar a oferta"
         >
           Aproveitar
